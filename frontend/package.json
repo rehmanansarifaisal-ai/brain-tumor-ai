@@ -1,0 +1,22 @@
+{
+  "name": "brain-tumor-ai-desktop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:web": "vite",
+    "dev": "node ../dev.js",
+    "build": "vite build",
+    "start": "electron electron/main.cjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "concurrently": "latest",
+    "electron": "latest"
+  }
+}
