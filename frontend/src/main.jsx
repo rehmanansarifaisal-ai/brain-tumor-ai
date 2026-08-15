@@ -36,7 +36,9 @@ function EmptyState({ title, text }) {
 }
 
 function App() {
-  const [apiBase, setApiBase] = useState(() => localStorage.getItem('brainTumorApiBase') || import.meta.env.VITE_API_BASE_URL || '/api')
+  const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  const initialApiBase = import.meta.env.VITE_API_BASE_URL || (isLocalHost ? localStorage.getItem('brainTumorApiBase') : '/api') || '/api'
+  const [apiBase, setApiBase] = useState(() => initialApiBase)
   const [geminiModel, setGeminiModel] = useState(() => localStorage.getItem('brainTumorGeminiModel') || 'gemini-2.5-flash-lite')
   const [health, setHealth] = useState(null)
   const [activePage, setActivePage] = useState('analysis')
@@ -84,16 +86,17 @@ function App() {
 
   const candidateApiBases = () => {
     const currentOrigin = `${window.location.protocol}//${window.location.hostname}`
+    const persistedBase = localStorage.getItem('brainTumorApiBase')
     const origins = [
       '/api',
-      localStorage.getItem('brainTumorApiBase'),
       import.meta.env.VITE_API_BASE_URL,
+      isLocalHost ? persistedBase : null,
       `${currentOrigin}:8000`,
       `${currentOrigin}:8001`,
       `${currentOrigin}:8002`,
-      'http://127.0.0.1:8000',
-      'http://127.0.0.1:8001',
-      'http://127.0.0.1:8002',
+      isLocalHost ? 'http://127.0.0.1:8000' : null,
+      isLocalHost ? 'http://127.0.0.1:8001' : null,
+      isLocalHost ? 'http://127.0.0.1:8002' : null,
     ]
     return [...new Set(origins.filter(Boolean))]
   }
@@ -208,6 +211,15 @@ function App() {
     localStorage.setItem('brainTumorGeminiModel', geminiModel)
     refresh()
   }
+
+  useEffect(() => {
+    if (!isLocalHost && typeof window !== 'undefined') {
+      const storedBase = localStorage.getItem('brainTumorApiBase')
+      if (storedBase && storedBase.startsWith('http://127.0.0.1')) {
+        localStorage.removeItem('brainTumorApiBase')
+      }
+    }
+  }, [isLocalHost])
 
   const currentPage = pageCopy[activePage]
 
