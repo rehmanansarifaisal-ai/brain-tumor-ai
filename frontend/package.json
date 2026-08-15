@@ -10,10 +10,11 @@
     "start": "electron electron/main.cjs"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+  "@vitejs/plugin-react": "latest",
+  "vite": "latest",
+  "react": "latest",
+  "react-dom": "latest",
+  "serve": "latest"
   },
   "devDependencies": {
     "concurrently": "latest",
