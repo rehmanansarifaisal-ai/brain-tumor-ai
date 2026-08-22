@@ -59,7 +59,7 @@ function App() {
   const pageCopy = useMemo(() => ({
     analysis: {
       eyebrow: 'Live MRI Workspace',
-      title: 'Neural MRI Analysis',
+      title: 'Automated Brain Tumor Detection Using Deep Learning Techniques',
       text: 'Upload a scan, run the AI model, and review classification details with a cleaner diagnostic workflow.'
     },
     batch: {
